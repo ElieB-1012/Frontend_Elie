@@ -32,11 +32,11 @@ const App = () =>{
         placeholder = {'Student Address'}
       />
     <View style = {styles.buttonsContainer}>
-      <TouchableOpacity>
-        <Text>Cancel</Text>
+      <TouchableOpacity onPress={onPresscallback} style = {styles.button}>
+        <Text style = {styles.buttonText}>Cancel</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
-        <Text>Save</Text>
+      <TouchableOpacity onPress={onPresscallback} style = {styles.button}>
+        <Text style = {styles.buttonText}>Save</Text>
       </TouchableOpacity>
     </View>
     </View>
@@ -59,10 +59,22 @@ const styles = StyleSheet.create({
       margin: 12,
       borderWidth: 1,
       padding: 10,
+      borderRadius: 10,
     },
     buttonsContainer: {
-      flex: 1,
       flexDirection: "row",
+    },
+    button:{
+      flex: 1,
+      backgroundColor: 'blue',
+      margin: 12,
+      padding: 12,
+      borderRadius: 10,
+
+    },
+    buttonText: {
+      textAlign: 'center',
+      color: "white",
     }
 })
 export default App
