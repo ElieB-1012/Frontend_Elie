@@ -2,7 +2,6 @@ import { View,Text, TextInput, StyleSheet, Image, TouchableOpacity, Button  } fr
 import React, { useState, useEffect} from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import TabNavigation from './TabNavigation'
 
 const HomeScreen: FC<{route: any, navigation: any}> = ({route,navigation}) => {
   const [message, setMessage] = useState('non')
@@ -55,9 +54,26 @@ const HeaderTitle: FC = () =>{
 }
 
 
-const App: FC = () =>{
+const Navigation: FC = () =>{
   return (
-    <TabNavigation></TabNavigation> 
+    
+    <NavigationContainer>
+       <Stack.Navigator screenOptions={{ title: 'Apply to all', headerStyle: {backgroundColor: 'red'} }}>
+         <Stack.Screen name="Home" 
+         component={HomeScreen} 
+         options = {{
+          headerTitle: ()=><HeaderTitle/>,
+          headerRight: () => (
+          <Button
+          onPress={() => alert('This is a button!')}
+          title="Info"
+          color="grey"
+          />
+          ),}}/>
+          <Stack.Screen name="Details" component={DetailsScreen} initialParams = {{id:111}} options = {{title: 'Details'}} />
+      </Stack.Navigator>
+    </NavigationContainer>
+    
   )
 }
 
@@ -94,4 +110,4 @@ const styles = StyleSheet.create({
       color: "white",
     }
 })
-export default App
+export default Navigation
