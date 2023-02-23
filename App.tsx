@@ -3,6 +3,7 @@ import React, { useState, useEffect} from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import TabNavigation from './TabNavigation'
+import PostList from './PostList'
 
 const HomeScreen: FC<{route: any, navigation: any}> = ({route,navigation}) => {
   const [message, setMessage] = useState('non')
@@ -57,7 +58,8 @@ const HeaderTitle: FC = () =>{
 
 const App: FC = () =>{
   return (
-    <TabNavigation></TabNavigation> 
+      <TabNavigation></TabNavigation>
+    
   )
 }
 

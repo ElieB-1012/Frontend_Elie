@@ -1,8 +1,9 @@
-import { View,Text, TextInput, StyleSheet, Image, TouchableOpacity, Button  } from 'react-native'
+import { View,Text, TextInput, StyleSheet, Image, TouchableOpacity, Button, TouchableHighlight  } from 'react-native'
 import React, { useState, useEffect} from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import PostList from './PostList';
 
 const HomeScreen: FC<{route: any, navigation: any}> = ({route,navigation}) => {
     const [message, setMessage] = useState('non')
@@ -46,6 +47,9 @@ const HomeScreen: FC<{route: any, navigation: any}> = ({route,navigation}) => {
 
 const Tab = createBottomTabNavigator();
 const TabNavigation: FC = () => {
+  const addNewPosts = () =>{
+    
+  }
     return (
         <NavigationContainer>
             <Tab.Navigator screenOptions={({ route }) => ({
@@ -64,7 +68,17 @@ const TabNavigation: FC = () => {
                 tabBarActiveTintColor: 'tomato',
                 tabBarInactiveTintColor: 'gray',
             })}>
-                <Tab.Screen name="Home" component={HomeScreen} />
+                <Tab.Screen name="Home" component={PostList} 
+                 options={{
+                  headerRight: () => (
+                  <TouchableHighlight
+                  onPress={addNewPosts }>
+                  <Ionicons name={'add-outline'}
+                 size={40} color={'gray'} />
+                  </TouchableHighlight >
+                  ),
+                  }
+                  }/>
                 <Tab.Screen name="Details" component={DetailsScreen} initialParams = {{id: "666"}}/>
             </Tab.Navigator>
         </NavigationContainer>
