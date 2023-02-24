@@ -27,9 +27,10 @@ const posts: Array<Post> = [
         image: './assets/avatar.jpg'
     },
 ]
-const ListItem: FC<{ name: String, id: String, image: String }> = ({ name, id, image }) => {
+const ListItem= ({ name, id, image, onRowSelected}) => {
     const onClick = () => {
         console.log('click' + id)
+        onRowSelected(id)
     }
     return (
         
@@ -47,13 +48,17 @@ const ListItem: FC<{ name: String, id: String, image: String }> = ({ name, id, i
     )
 }
 
-const PostList: FC = () => {
+const PostList= ({route, navigation}) => {
+    const onRowSelected = (id: String) => {
+        console.log("row selected: " + id)
+        navigation.navigate('PostDetails', {PostId: id})
+    }
     return (
         <FlatList style={styles.flatlist}
             data={posts}
             keyExtractor={posts => posts.id.toString()}
             renderItem={({ item }) => (
-            <ListItem name={item.name} id={item.id} image={item.image} />
+            <ListItem name={item.name} id={item.id} image={item.image} onRowSelected={onRowSelected} />
             )}
             >
         </FlatList>

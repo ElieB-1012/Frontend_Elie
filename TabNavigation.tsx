@@ -1,88 +1,70 @@
-import { View,Text, TextInput, StyleSheet, Image, TouchableOpacity, Button, TouchableHighlight  } from 'react-native'
-import React, { useState, useEffect} from 'react'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, Button, TouchableHighlight } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import PostList from './PostList';
+import PostDetails from './PostDetails';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import PostAdd from './PostAdd';
 
-const HomeScreen: FC<{route: any, navigation: any}> = ({route,navigation}) => {
-    const [message, setMessage] = useState('non')
-    useEffect(() => {
-      console.log('UseEffect' + route.params?.newPostId)
-      if(route.params?.newPostId){
-        setMessage(JSON.stringify(route.params?.newPostId))
-      }
-    }, [route.params?.newPostId])
-    return (
-     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-     <Text>Home Screen</Text>
-     <Text>{message}</Text>
-        <Button 
-          title = "Go to Details" 
-          onPress={() => navigation.navigate('Details', {id: 123, name: "Elie"})}>
-        </Button>
-     </View>
-     );
-    }
+const InfoScreen = ({ route, navigation }) => {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>InfoScreen</Text>
+    </View>
+  );
+}
 
-    const DetailsScreen: FC<{route: any,navigation: any}> = ({route, navigation}) => {
-        useEffect(()=> {
-          navigation.setOptions({title: 'Details ' + route.params.name})
-        })
-        const id = JSON.stringify(route.params.id)
-        const name = JSON.stringify(route.params.name)
-    
-      return (
-       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-       <Text>Details Screen {id}</Text>
-          <Button 
-            title = "Home" 
-            onPress={() => {
-              navigation.navigate('Home', {newPostId: "666"})}}>
-          </Button>
-       </View>
-       );
+const PostStack = createNativeStackNavigator();
+const PostStackComponent = ({route, navigation}) => {
+  const addNewPost = () => {
+    navigation.navigate('PostAdd')
+  }
+  return (
+    <PostStack.Navigator >
+      <PostStack.Screen name="PostList" component={PostList} options={{
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={addNewPost}>
+            <Ionicons name={'add-outline'}
+              size={40} color={'gray'} />
+          </TouchableOpacity>
+        ),
       }
-    
+      } />
+      <PostStack.Screen name="PostDetails" component={PostDetails} />
+      <PostStack.Screen name="PostAdd" component={PostAdd} />
+    </PostStack.Navigator >
+  );
+}
 
 const Tab = createBottomTabNavigator();
-const TabNavigation: FC = () => {
-  const addNewPosts = () =>{
-    
-  }
-    return (
-        <NavigationContainer>
-            <Tab.Navigator screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
-                if (route.name === 'Home') {
-                  iconName = focused
-                    ? 'information-circle'
-                    : 'information-circle-outline';
-                } else if (route.name === 'Details') {
-                iconName = focused ? 'list-circle' : 'list-circle-outline';
-                }
-                // You can return any component that you like here!
-                return <Ionicons name={iconName} size={size} color={color} />;
-                },
-                tabBarActiveTintColor: 'tomato',
-                tabBarInactiveTintColor: 'gray',
-            })}>
-                <Tab.Screen name="Home" component={PostList} 
-                 options={{
-                  headerRight: () => (
-                  <TouchableHighlight
-                  onPress={addNewPosts }>
-                  <Ionicons name={'add-outline'}
-                 size={40} color={'gray'} />
-                  </TouchableHighlight >
-                  ),
-                  }
-                  }/>
-                <Tab.Screen name="Details" component={DetailsScreen} initialParams = {{id: "666"}}/>
-            </Tab.Navigator>
-        </NavigationContainer>
-    )
+const TabNavigation = ({ route, navigation }) => {
+
+  return (
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === 'InfoScreen') {
+            iconName = focused
+              ? 'information-circle'
+              : 'information-circle-outline';
+          } else if (route.name === 'PostStackComponent') {
+            iconName = focused ? 'list-circle' : 'list-circle-outline';
+          }
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
+      })}>
+        <Tab.Screen name="PostStackComponent" component={PostStackComponent} options={{ headerShown: false }} />
+        <Tab.Screen name="InfoScreen" component={InfoScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  )
 }
 
 export default TabNavigation
