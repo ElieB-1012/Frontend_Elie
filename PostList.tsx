@@ -3,30 +3,9 @@ import React, { useState, useEffect} from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import PostModel, {Post} from './model/PostModel';
 
-type Post= {
-    id: String,
-    name: String,
-    image: String,
-}
 
-const posts: Array<Post> = [
-    {
-        id:'1',
-        name: 'Elie',
-        image: './assets/avatar.jpg'
-    },
-    {
-        id:'2',
-        name: 'Yaacov',
-        image: './assets/avatar.jpg'
-    },
-    {
-        id:'3',
-        name: 'Adane',
-        image: './assets/avatar.jpg'
-    },
-]
 const ListItem= ({ name, id, image, onRowSelected}) => {
     const onClick = () => {
         console.log('click' + id)
@@ -53,6 +32,14 @@ const PostList= ({route, navigation}) => {
         console.log("row selected: " + id)
         navigation.navigate('PostDetails', {PostId: id})
     }
+    const [posts, setPosts] = useState<Array<Post>>() 
+    useEffect(()=>{
+        const unsubscribe = navigation.addListener('focus', ()=> {
+            setPosts(PostModel.getAllPosts())
+        })
+        return unsubscribe
+    })
+
     return (
         <FlatList style={styles.flatlist}
             data={posts}

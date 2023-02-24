@@ -1,12 +1,23 @@
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
+import PostModel, {Post} from './model/PostModel'
 
-const PostAdd = () => {
+const PostAdd = ({route, navigation}) => {
   const [id, setId] = useState("")
   const [name, setName] = useState("")
   const [address, setAddress] = useState("")
-  const onPresscallback = () => {
+  const onSavecallback = () => {
     console.log("button")
+    const post: Post = {
+      id: id,
+      name: name,
+      image: 'dd',
+    }
+    PostModel.addPost(post)
+    navigation.goBack()
+  }
+  const onCancelcallback = () => {
+    navigation.goBack()
   }
 
   return (
@@ -32,10 +43,10 @@ const PostAdd = () => {
           placeholder={'Student Address'}
         />
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity onPress={onPresscallback} style={styles.button}>
+          <TouchableOpacity onPress={onCancelcallback} style={styles.button}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={onPresscallback} style={styles.button}>
+          <TouchableOpacity onPress={onSavecallback} style={styles.button}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
         </View>
