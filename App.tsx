@@ -2,10 +2,10 @@ import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, Button } fr
 import React, { useState, useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import TabNavigation from './TabNavigation'
-import PostList from './PostList'
-import Navigation from './Navigation'
-import PostDetails from './PostDetails'
+import TabNavigation from './Components/TabNavigation'
+import PostList from './Components/PostList'
+import Navigation from './Components/Navigation'
+import PostDetails from './Components/PostDetails'
 
 const HomeScreen = ({ route, navigation }) => {
   const [message, setMessage] = useState('non')

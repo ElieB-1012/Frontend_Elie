@@ -3,7 +3,7 @@ import React, { useState, useEffect} from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import PostModel, {Post} from './model/PostModel';
+import PostModel, {Post} from '../model/PostModel';
 
 
 const ListItem= ({ name, id, image, onRowSelected}) => {
@@ -16,7 +16,7 @@ const ListItem= ({ name, id, image, onRowSelected}) => {
         <TouchableHighlight onPress={onClick} underlayColor = {'gainsboro'}>
             <View style={styles.listRow}>
                 <Image style={styles.listRowImage}
-                    source={require("./assets/avatar.jpg")}/>
+                    source={require("../assets/avatar.jpg")}/>
                 <View style={styles.listRowTextContainer}>
                     <Text style={styles.listRowName}>{name}</Text>
                     <Text style={styles.listRowId}>{id}</Text>

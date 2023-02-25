@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
-import PostModel, {Post} from './model/PostModel'
+import PostModel, {Post} from '../model/PostModel'
 
 const PostAdd = ({route, navigation}) => {
   const [id, setId] = useState("")
@@ -23,7 +23,7 @@ const PostAdd = ({route, navigation}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Image source={require('./assets/avatar.jpg')} style={styles.avatar}></Image>
+        <Image source={require('../assets/avatar.jpg')} style={styles.avatar}></Image>
         <TextInput
           style={styles.input}
           onChangeText={setId}
