@@ -13,9 +13,16 @@ const PostAdd = ({route, navigation}) => {
       name: name,
       image: 'dd',
     }
-    PostModel.addPost(post)
+    try{
+      PostModel.addPost(post)
+      //console.log(PostModel.getAllPosts())
+    }
+    catch(err){
+      console.log('failed to add student' + err)
+    }
     navigation.goBack()
   }
+
   const onCancelcallback = () => {
     navigation.goBack()
   }
