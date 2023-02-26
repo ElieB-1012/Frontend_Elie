@@ -1,4 +1,5 @@
 import PostApi from '../api/PostApi'
+import FormData from 'form-data'
 
 export type Post = {
     id: String,
@@ -35,7 +36,7 @@ const getAllPosts = async () => {
             const st: Post = {
                 id: obj._id,
                 name: obj.name,
-                image: ''
+                image: obj.avatarUrl
             }
             posts.push(st)
             console.log('posts:' + posts.length)
@@ -61,4 +62,27 @@ const addPost = (post: Post) => {
     }
 }
 
-export default { getAllPosts, addPost }
+const uploadImage =async  (imageURI: String) => {
+        var body = new FormData();
+        body.append('file', {name: "name",type: 'image/jpeg',uri: imageURI});
+        try {
+            const res = await PostApi.uploadImage(body)
+            if(!res.ok){
+                console.log("save failed " + res.problem)
+                }else{
+                    if (res.data){
+                        const d:any = res.data
+                        console.log("url" + d.url)
+                        return d.url
+                    }
+
+                }
+        } catch (error) {
+            console.log('error save file' + error)
+        }
+        return ""
+
+
+        
+} 
+export default { getAllPosts, addPost, uploadImage }

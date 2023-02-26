@@ -7,7 +7,12 @@ const getAllPosts = async () => {
 const addPost = async (post: any) => {
     return apiClient.post("/post2", post)
 }
+
+const uploadImage = async (image: any) => {
+    return apiClient.post('/file/file', image)
+}
 export default {
     getAllPosts,
-    addPost
+    addPost, 
+    uploadImage
 }
