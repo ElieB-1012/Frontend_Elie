@@ -11,6 +11,7 @@ const ListItem= ({ name, id, image, onRowSelected}) => {
         console.log('click' + id)
         onRowSelected(id)
     }
+    console.log('listitem' + name)
     return (
         
         <TouchableHighlight onPress={onClick} underlayColor = {'gainsboro'}>
@@ -31,11 +32,22 @@ const PostList= ({route, navigation}) => {
     const onRowSelected = (id: String) => {
         console.log("row selected: " + id)
         navigation.navigate('PostDetails', {PostId: id})
+        //setPosts(PostModel.getAllPosts())
     }
     const [posts, setPosts] = useState<Array<Post>>() 
     useEffect(()=>{
-        const unsubscribe = navigation.addListener('focus', ()=> {
-            setPosts(PostModel.getAllPosts())
+        const unsubscribe = navigation.addListener('focus', async ()=> {
+            console.log('focus')
+            let posts: Post[] = []
+            try {
+                posts = await PostModel.getAllPosts()
+                setPosts(posts)
+                console.log("fetching students complete")
+            } catch (err) {
+                console.log("fail fetching students " + err)
+                setPosts(Array<Post>())
+            }
+            console.log("fetching finish")
         })
         return unsubscribe
     })

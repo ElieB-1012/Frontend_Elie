@@ -1,23 +1,24 @@
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
-import PostModel, {Post} from '../model/PostModel'
+import PostModel, { Post } from '../model/PostModel'
 
-const PostAdd = ({route, navigation}) => {
+const PostAdd =  ({ route, navigation }) => {
   const [id, setId] = useState("")
   const [name, setName] = useState("")
   const [address, setAddress] = useState("")
-  const onSavecallback = () => {
+  const onSavecallback = async () => {
     console.log("button")
     const post: Post = {
       id: id,
       name: name,
       image: 'dd',
     }
-    try{
-      PostModel.addPost(post)
-      //console.log(PostModel.getAllPosts())
+    try {
+      console.log('45' +PostModel.getAllPosts())
+      await PostModel.addPost(post)
+      
     }
-    catch(err){
+    catch (err) {
       console.log('failed to add student' + err)
     }
     navigation.goBack()
