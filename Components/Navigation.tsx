@@ -2,17 +2,17 @@ import { View, Text } from 'react-native'
 import React, {useContext} from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import { AuthContext } from '../context/AuthContext';
 import SplashScreen from '../screens/SplashScreen';
+import LayoutNavigator from './LayoutNavigator'
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
     const {userInfo, splashLoading} = useContext(AuthContext)
-    console.log("navigation", userInfo)
+    console.log("navigation", userInfo._id)
 
   return (
     <NavigationContainer>
@@ -24,7 +24,7 @@ const Navigation = () => {
             options={{headerShown: false}}
           />
         ) : userInfo.refreshToken ? (
-                <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
+                <Stack.Screen name="Layout" component={LayoutNavigator} options={{headerShown:false}}/>
             ) 
             : (
                 <>

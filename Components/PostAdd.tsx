@@ -1,14 +1,17 @@
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import PostModel, { Post } from '../model/PostModel'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import FormData from 'form-data';
+import { AuthContext } from '../context/AuthContext';
+import { create } from 'apisauce';
+import baseURL from '../api/baseURL';
+import axios from 'axios';
 
 const PostAdd = ({ route, navigation }) => {
-  const [id, setId] = useState("")
-  const [name, setName] = useState("")
-  const [address, setAddress] = useState("")
+  const { userInfo } = useContext(AuthContext);
+  const [message, setMessage] = useState("")
   const [avatarUri, setAvatarUri] = useState("")
   const askPermission = async () => {
     try {
@@ -48,27 +51,36 @@ const PostAdd = ({ route, navigation }) => {
     }
   }
   const onSavecallback = async () => {
+    const apiClient = create({
+      baseURL: `${baseURL}`,
+      headers: { Accept: 'application/vnd.github.v3+json' },
+    })
     console.log("button")
-    const post: Post = {
-      id: id,
-      name: name,
-      image: '',
+    const body = {
+      senderId: userInfo._id,
+      senderName: userInfo.username,
+      photo: '',
+      message: message
     }
     try {
-      if (avatarUri != ""){
-        console.log("upload Image")
+      if (avatarUri != "") {
         const url = await PostModel.uploadImage(avatarUri)
-        post.image = url
-        console.log('got url from upload' + url)
+        body.photo = url
+        console.log(userInfo.accessToken)
       }
       console.log("saving Post")
-
-      await PostModel.addPost(post)
 
     }
     catch (err) {
       console.log('failed to add student' + err)
     }
+    await axios.post(`${baseURL}/post`, body, {
+      headers: {
+        'Authorization': `JWT ${userInfo.accessToken}`
+      }
+    }).catch(e => {
+      console.log(`add post error ${e}`);
+    });
     navigation.goBack()
   }
 
@@ -94,21 +106,9 @@ const PostAdd = ({ route, navigation }) => {
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          onChangeText={setId}
-          value={id}
-          placeholder={'Student ID'}
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setName}
-          value={name}
-          placeholder={'Student Name'}
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setAddress}
-          value={address}
-          placeholder={'Student Address'}
+          onChangeText={setMessage}
+          value={message}
+          placeholder={'Message'}
         />
         <View style={styles.buttonsContainer}>
           <TouchableOpacity onPress={onCancelcallback} style={styles.button}>

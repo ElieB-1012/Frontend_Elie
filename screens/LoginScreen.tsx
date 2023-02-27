@@ -6,7 +6,7 @@ import Spinner from 'react-native-loading-spinner-overlay'
 
 
 const LoginScreen:FC<{route:any, navigation: any }> = ({route, navigation}) => {
-  const [Email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [Password, setPassword] = useState<string>("");
   const {isLoading,login} = useContext<any>(AuthContext)
 
@@ -16,10 +16,10 @@ const LoginScreen:FC<{route:any, navigation: any }> = ({route, navigation}) => {
         <Spinner visible={isLoading} />
       <View style={styles.wrapper}>
         <TextInput 
-          value={Email}
+          value={username}
           style={styles.input}
-          placeholder='Enter Email'
-          onChangeText = { (text) => setEmail(text)}
+          placeholder='Enter username'
+          onChangeText = { (text) => setUsername(text)}
           ></TextInput>
         <TextInput 
           value={Password}
@@ -28,7 +28,7 @@ const LoginScreen:FC<{route:any, navigation: any }> = ({route, navigation}) => {
           secureTextEntry
           onChangeText = { (text) => setPassword(text)}
           ></TextInput>
-        <Button title='Login' onPress={()=>{login(Email, Password)}}></Button>
+        <Button title='Login' onPress={()=>{login(username, Password)}}></Button>
 
         <View style={{flexDirection: 'row', marginTop:20}} >
           <Text>Don't have account? </Text>

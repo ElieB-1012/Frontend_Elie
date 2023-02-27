@@ -11,7 +11,7 @@ import { AuthContext } from '../context/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const RegisterScreen = ({ navigation }) => {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const { isLoading, register } = useContext(AuthContext);
@@ -23,9 +23,9 @@ const RegisterScreen = ({ navigation }) => {
 
                 <TextInput
                     style={styles.input}
-                    value={email}
+                    value={username}
                     placeholder="Enter email"
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={text => setUsername(text)}
                 />
 
                 <TextInput
@@ -39,8 +39,8 @@ const RegisterScreen = ({ navigation }) => {
                 <Button
                     title="Register"
                     onPress={() => {
-                        console.log(email + " " + password)
-                        register(email, password);
+                        console.log(username + " " + password)
+                        register(username, password);
                     }}
                 />
 

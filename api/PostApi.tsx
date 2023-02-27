@@ -1,11 +1,13 @@
 import apiClient from "./ClientApi";
 
 const getAllPosts = async () => {
-    return apiClient.get('/post2')
+    return apiClient.get('/post')
 }
 
 const addPost = async (post: any) => {
-    return apiClient.post("/post2", post)
+    console.log('backend');
+    return apiClient.post("/post", post)
+    
 }
 
 const uploadImage = async (image: any) => {
