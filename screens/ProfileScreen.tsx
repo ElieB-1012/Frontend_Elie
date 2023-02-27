@@ -17,9 +17,11 @@ const ProfileScreen = () => {
         Accept: 'application/vnd.github.v3+json',
         Authorization: `JWT ${userInfo.accessToken}`
       },
-      //params: {sender: userInfo._id}
+      params: {sender: userInfo._id}
     })
-    const allPosts: any = await apiClient.get(`/post/${userInfo._id}`);
+    const allPosts: any = await apiClient.get(`/post/`);
+    //console.log('all posts: ' + JSON.stringify(allPosts.data));
+    
     setPosts(allPosts.data)
   }
   useEffect(() => {
@@ -28,7 +30,6 @@ const ProfileScreen = () => {
     })
     return unsubscribe
   })
-  console.log(userInfo._id);
   
   return (
     <FlatList

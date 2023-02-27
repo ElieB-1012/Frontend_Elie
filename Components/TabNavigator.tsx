@@ -44,7 +44,6 @@ import PostAdd from './PostAdd'
       }
       }/>
             <Tab.Screen name='Chat' component={ChatScreen}/>
-            <Tab.Screen name='PostAdd' component={PostAdd} />
             <Tab.Screen name='Settings' component={SettingsScreen}/>
         </Tab.Navigator>
     )   
