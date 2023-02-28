@@ -6,11 +6,14 @@ import SettingsScreen from '../screens/SettingsScreen'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
 import PostAdd from './PostAdd'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
 
  const Tab = createBottomTabNavigator()
  
  const TabNavigator = ({route, navigation}) => {
+  const {userInfo, logout} = useContext(AuthContext)
   const addNewPost = () => {
     navigation.navigate('PostAdd')
   }
@@ -44,7 +47,15 @@ import PostAdd from './PostAdd'
       }
       }/>
             <Tab.Screen name='Chat' component={ChatScreen}/>
-            <Tab.Screen name='Settings' component={SettingsScreen}/>
+            <Tab.Screen name='Settings' component={SettingsScreen} options={{
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={logout}>
+            <Ionicons name={'log-out-outline'}
+              size={40} color={'gray'} />
+          </TouchableOpacity>
+        ),
+      }}/>
         </Tab.Navigator>
     )   
  }
