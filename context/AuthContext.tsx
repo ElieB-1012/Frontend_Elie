@@ -9,7 +9,7 @@ type UserInfo = {
   accessToken: string;
   refreshToken: string;
   username:string
-  ImgUrl:string
+  image:string
   _id: string
 };
 
@@ -24,7 +24,7 @@ type AuthContextType = {
 
 export const AuthContext = createContext<AuthContextType>({
   isLoading: false,
-  userInfo: { accessToken: '', refreshToken: '', username:'', ImgUrl:'', _id:'' },
+  userInfo: { accessToken: '', refreshToken: '', username:'', image:'', _id:'' },
   splashLoading: false,
   register: (username: string, password: string) => {},
   login: (username: string, password: string) => {},
@@ -32,7 +32,7 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider: React.FC<{children: any }> = ({children}) =>{
-  const [userInfo, setUserInfo] = useState<UserInfo>({ accessToken: '', refreshToken: '', username:'', ImgUrl:'', _id:'' });
+  const [userInfo, setUserInfo] = useState<UserInfo>({ accessToken: '', refreshToken: '', username:'', image:'', _id:'' });
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
 
@@ -56,6 +56,9 @@ export const AuthProvider: React.FC<{children: any }> = ({children}) =>{
 
       })
       .catch(e => {
+        Alert.alert('Register Failed', 'Username Already used', [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ]);
         console.log(`register error ${e}`);
         setIsLoading(false);
       });
@@ -100,7 +103,7 @@ export const AuthProvider: React.FC<{children: any }> = ({children}) =>{
         console.log('status', res.status);
 
         AsyncStorage.removeItem('userInfo');
-        setUserInfo({ accessToken: '', refreshToken: '', username:'', ImgUrl:'',_id:''});
+        setUserInfo({ accessToken: '', refreshToken: '', username:'', image:'',_id:''});
         setIsLoading(false);
         console.log('axios done logout')
       })
@@ -110,7 +113,7 @@ export const AuthProvider: React.FC<{children: any }> = ({children}) =>{
         //delete all axios memory
         console.log(`axios clear memory + set userInfo to { accessToken: '', refreshToken: '', username:'' }`);
         await AsyncStorage.clear();
-        setUserInfo({ accessToken: '', refreshToken: '', username:'', ImgUrl:'', _id:'' });
+        setUserInfo({ accessToken: '', refreshToken: '', username:'', image:'', _id:'' });
       });
   };
 

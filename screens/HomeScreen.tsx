@@ -36,7 +36,7 @@ const HomeScreen = () => {
     keyExtractor={post => post._id.toString()}
     renderItem={
       ({item}) => (
-        <ListItem name={item.senderName} id={item.message} image={item.photo} />
+        <ListItem name={item.senderName} message={item.message} image={item.photo} />
       )
     } /> 
   );

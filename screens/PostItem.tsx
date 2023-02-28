@@ -1,17 +1,17 @@
 import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, Button, FlatList, TouchableHighlight } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useContext } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import PostModel, { Post } from '../model/PostModel';
 import Feather from 'react-native-vector-icons/Feather'
+import { AuthContext } from '../context/AuthContext';
 
 
 
-const ListItem = ({ name, id, image }) => {
-    const onClick = () => {
-        console.log('click ' + id)
-    }
+const ListItem = ({ name, message, image, id }) => {
+    const { userInfo } = useContext(AuthContext);
+    
     return (
 
         <View style={{
@@ -35,7 +35,6 @@ const ListItem = ({ name, id, image }) => {
                         </Text>
                     </View>
                 </View>
-                <Feather name="more-vertical" style={{ fontSize: 20 }} />
             </View>
             <View
               style={{
@@ -53,7 +52,7 @@ const ListItem = ({ name, id, image }) => {
                   paddingVertical: 2,
                   margin:20 
                 }}>
-                {id}
+                {message}
               </Text>
            
 
@@ -62,17 +61,6 @@ const ListItem = ({ name, id, image }) => {
     )
 }
 
-/*
-        <TouchableHighlight onPress={onClick} underlayColor={'gainsboro'}>
-            <View style={styles.listRow}>
-                {image == "" && <Image style={styles.listRowImage} source={require('../assets/avatar.jpg')} />}
-                {image != "" && <Image style={styles.listRowImage} source={{ uri: image.toString() }} />}
-                <View style={styles.listRowTextContainer}>
-                    <Text style={styles.listRowName}>{name}</Text>
-                    <Text style={styles.listRowId}>{id}</Text>
-                </View>
-            </View>
-        </TouchableHighlight> */
 const styles = StyleSheet.create({
     listRow: {
         margin: 4,

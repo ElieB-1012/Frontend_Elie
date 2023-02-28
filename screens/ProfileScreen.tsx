@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { create } from 'apisauce';
 import React, { useContext, useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import ListItem from './PostItem';
 import baseURL from '../api/baseURL';
@@ -10,6 +10,11 @@ const ProfileScreen = () => {
   const navigation = useNavigation()
   const { userInfo, isLoading, logout } = useContext(AuthContext);
   const [posts, setPosts] = useState()
+  const onClick = (id: any, message: any, name: any, image: any) => {
+    navigation.navigate('EditPost', {id: id, message: message, name: name, image: image})
+    console.log('Elie' + image);
+    
+  }
   const getPosts = async () => {
     const apiClient = create({
       baseURL: `${baseURL}`,
@@ -32,14 +37,18 @@ const ProfileScreen = () => {
   })
   
   return (
+    
     <FlatList
       data={posts}
       keyExtractor={post => post._id.toString()}
       renderItem={
         ({ item }) => (
-          <ListItem name={item.senderName} id={item.message} image={item.photo} />
+          <TouchableOpacity onPress={() => onClick(item._id, item.message, item.name, item.photo)}>
+            <ListItem name={item.senderName} message={item.message} image={item.photo} id = {item._id} />
+          </TouchableOpacity>
         )
       } />
+      
   )
 }
 
