@@ -37,8 +37,8 @@ const ListItem = ({ name, message, image, id }) => {
                     padding: 15,
                 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {image == "" && <Image style={{ width: 40, height: 40, borderRadius: 100 }} source={require('../assets/avatar.jpg')} />}
-                    {image != "" && <Image style={{ width: 40, height: 40, borderRadius: 100 }} source={require('../assets/avatar.jpg')} />}
+                    {user.image == "" && <Image style={{ width: 40, height: 40, borderRadius: 100 }} source={require('../assets/avatar.jpg')} />}
+                    {user.image != "" && <Image style={{ width: 40, height: 40, borderRadius: 100 }} source={{uri : user.image}} />}
                     <View style={{ paddingLeft: 5 }}>
                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
                             {name}
