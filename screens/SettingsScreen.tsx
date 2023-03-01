@@ -11,7 +11,19 @@ import axios from 'axios';
 
 const SettingsScreen = ({navigation}) => {
   const { userInfo } = useContext(AuthContext);
-  console.log(userInfo.image)
+  const [user, setUser] = useState({image: ''})
+  const getUser = async () => {
+      const user = await axios.get(`${baseURL}/user/${userInfo._id}`, {headers: { Authorization: `JWT ${userInfo.accessToken}`}})
+      setUser(user.data)
+      if(user.data.image){
+        setAvatarUri(user.data.image)
+      }
+
+  }
+  useEffect(() => {
+      getUser()
+  }, [])
+  console.log(userInfo)
   const [message, setMessage] = useState("")
   const [avatarUri, setAvatarUri] = useState("")
   const askPermission = async () => {
@@ -57,9 +69,7 @@ const SettingsScreen = ({navigation}) => {
       headers: { Accept: 'application/vnd.github.v3+json' },
     })
     const body = {
-      password: '',
-      username: userInfo.username,
-      image: '',
+      image: ''
     }
     try {
       if (avatarUri != "") {
@@ -73,7 +83,7 @@ const SettingsScreen = ({navigation}) => {
     catch (err) {
       console.log('failed to add student' + err)
     }
-    await axios.post(`${baseURL}/post`, body, {
+    await axios.put(`${baseURL}/user/${userInfo._id}`, body, {
       headers: {
         'Authorization': `JWT ${userInfo.accessToken}`
       }
@@ -110,12 +120,6 @@ const SettingsScreen = ({navigation}) => {
           selectTextOnFocus = {false}
           onChangeText={setMessage}
           value={userInfo.username}
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={setMessage}
-          value={message}
-          placeholder={'Message'}
         />
         <View style={styles.buttonsContainer}>
           <TouchableOpacity onPress={onCancelcallback} style={styles.button}>

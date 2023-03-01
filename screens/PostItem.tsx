@@ -6,11 +6,21 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import PostModel, { Post } from '../model/PostModel';
 import Feather from 'react-native-vector-icons/Feather'
 import { AuthContext } from '../context/AuthContext';
-
-
+import axios from 'axios';
+import baseURL from '../api/baseURL';
 
 const ListItem = ({ name, message, image, id }) => {
     const { userInfo } = useContext(AuthContext);
+    const [user, setUser] = useState({image: ''})
+    const getUser = async () => {
+        const user = await axios.get(`${baseURL}/user/${id}`, {headers: { Authorization: `JWT ${userInfo.accessToken}`}})
+        setUser(user.data)
+    }
+    console.log(user.image );
+    
+    useEffect(() => {
+        getUser()
+    }, [])
     
     return (
 
@@ -28,7 +38,7 @@ const ListItem = ({ name, message, image, id }) => {
                 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     {image == "" && <Image style={{ width: 40, height: 40, borderRadius: 100 }} source={require('../assets/avatar.jpg')} />}
-                    {image != "" && <Image style={{ width: 40, height: 40, borderRadius: 100 }} source={{ uri: image.toString() }} />}
+                    {image != "" && <Image style={{ width: 40, height: 40, borderRadius: 100 }} source={require('../assets/avatar.jpg')} />}
                     <View style={{ paddingLeft: 5 }}>
                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>
                             {name}
@@ -60,6 +70,9 @@ const ListItem = ({ name, message, image, id }) => {
 
     )
 }
+/*
+{ uri: user.image }
+ */
 
 const styles = StyleSheet.create({
     listRow: {

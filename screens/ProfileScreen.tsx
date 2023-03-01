@@ -11,7 +11,7 @@ const ProfileScreen = () => {
   const { userInfo, isLoading, logout } = useContext(AuthContext);
   const [posts, setPosts] = useState()
   const onClick = (id: any, message: any, name: any, image: any) => {
-    navigation.navigate('EditPost', {id: id, message: message, name: name, image: image})
+    navigation.navigate('EditPost', {id: id, message: message, name: name, image: image})//HEREEEEE
     console.log('Elie' + image);
     
   }
@@ -44,7 +44,7 @@ const ProfileScreen = () => {
       renderItem={
         ({ item }) => (
           <TouchableOpacity onPress={() => onClick(item._id, item.message, item.name, item.photo)}>
-            <ListItem name={item.senderName} message={item.message} image={item.photo} id = {item._id} />
+            <ListItem name={item.senderName} message={item.message} image={item.photo} id = {item.senderId} />
           </TouchableOpacity>
         )
       } />
